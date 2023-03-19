@@ -1,0 +1,28 @@
+struct Node* copyRandomList(struct Node* head) {
+    if(head == NULL)
+        return NULL;
+    struct Node* p = head;
+    struct Node* phead = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* ph = phead;
+    while(p)
+    {
+        struct Node* tmp = p->next;
+        ph->val = p->val;
+        p->next = ph;
+        ph->random = p->random;
+        ph->next = (struct Node*)malloc(sizeof(struct Node));
+        if(tmp)
+            ph = ph->next;
+        else
+            ph->next = NULL;
+        p = tmp;
+    }
+    ph = phead;
+    while(ph)
+    {
+        if(ph->random)
+            ph->random = ph->random->next;
+        ph = ph->next;
+    }
+    return phead;
+}

@@ -1,0 +1,100 @@
+//1
+
+int missingNumber(int* nums, int numsSize){
+    int misNum = 0;
+    for(int i = 0; i < numsSize; i++)
+    misNum ^= nums[i];
+    for(int j = 0; j < numsSize + 1; j++)
+    misNum ^= j;
+    return misNum;
+}
+
+//2
+int missingNumber(int* nums, int numsSize){
+    int misNum = 0;
+    for(int j = 0; j < numsSize + 1; j++)
+    misNum += j;
+    for(int i = 0; i < numsSize; i++)
+    misNum -= nums[i];
+    return misNum;
+}
+
+//3
+int missingNumber(int* nums, int numsSize){
+    int misNum = (numsSize+1)*numsSize/2;
+    int k=0;
+    for(int j = 0; j < numsSize; j++)
+    k+=nums[j];
+    misNum = misNum-k;
+    return misNum;
+}
+
+//4
+int missingNumber(int* nums, int numsSize)
+{
+    int* temp = (int*)malloc(sizeof(int) * (numsSize + 1));
+    if (temp == NULL)
+    {
+        perror("missingNumber::malloc");
+        return 0;
+    }
+    int i = 0;
+    for (i = 0; i < numsSize + 1; i++)
+    {
+        *(temp+i) = -1;
+    }
+    for (i = 0; i < numsSize; i++)
+    {
+        temp[*nums] = *nums;
+        nums++;
+    }
+    for (i = 0; i < numsSize + 1; i++)
+    {
+        if (*(temp + i) == -1)
+        {
+            free(temp);
+            temp == NULL;
+            return i;
+        }
+    }
+    return ;
+}
+
+
+//5
+ int Partition(int *A, int low, int high){
+    int pivot=A[low];
+    while(low<high){
+        while(low<high && A[high]>=pivot) high--;
+        A[low]=A[high];
+        while(low<high && A[low]<=pivot) low++;
+        A[high]=A[low];
+    }
+    A[low]=pivot;
+    return low;
+ }
+
+ void QuickSort(int *A, int low, int high){
+    if(low<high){
+        int PartitionPos = Partition(A,low, high);
+        QuickSort(A,low,PartitionPos-1);
+        QuickSort(A,PartitionPos+1, high);
+    }
+
+ }
+
+int missingNumber(int* nums, int numsSize){
+    QuickSort(nums, 0, numsSize-1);
+    int left=0, right=numsSize;
+    while(left<right){
+        int mid=left+(right-left)/2;
+        if(nums[mid]==mid){
+            left=mid+1;
+        }
+        else{
+            right=mid;
+        }
+    }
+    return left;
+
+}

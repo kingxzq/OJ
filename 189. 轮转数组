@@ -1,0 +1,55 @@
+//1
+void rotate(int* nums, int numsSize, int k) {
+    int newArr[numsSize];
+    for (int i = 0; i < numsSize; ++i) {
+        newArr[(i + k) % numsSize] = nums[i];
+    }
+    for (int i = 0; i < numsSize; ++i) {
+        nums[i] = newArr[i];
+    }
+}
+
+//2
+int gcd(int a, int b) {
+    return b ? gcd(b, a % b) : a;
+}
+
+void swap(int* a, int* b) {
+    int t = *a;
+    *a = *b, *b = t;
+}
+
+void rotate(int* nums, int numsSize, int k) {
+    k = k % numsSize;
+    int count = gcd(k, numsSize);
+    for (int start = 0; start < count; ++start) {
+        int current = start;
+        int prev = nums[start];
+        do {
+            int next = (current + k) % numsSize;
+            swap(&nums[next], &prev);
+            current = next;
+        } while (start != current);
+    }
+}
+
+//3
+void swap(int* a, int* b) {
+    int t = *a;
+    *a = *b, *b = t;
+}
+
+void reverse(int* nums, int start, int end) {
+    while (start < end) {
+        swap(&nums[start], &nums[end]);
+        start += 1;
+        end -= 1;
+    }
+}
+
+void rotate(int* nums, int numsSize, int k) {
+    k %= numsSize;
+    reverse(nums, 0, numsSize - 1);
+    reverse(nums, 0, k - 1);
+    reverse(nums, k, numsSize - 1);
+}

@@ -1,0 +1,28 @@
+struct Node* copyRandomList(struct Node* head) {
+    if(head == NULL)
+        return NULL;
+    struct Node* p = head;
+    struct Node* phead = (struct Node*)malloc(sizeof(struct Node));//复制后要返回的链表头结点
+    struct Node* ph = phead;//复制phead结点
+    while(p)//p不为NULL则一直循环
+    {
+        struct Node* tmp = p->next;//保存p的下一结点
+        ph->val = p->val;//复制值到pHead
+        p->next = ph;//p指向ph
+        ph->random = p->random;//复制random指针给ph
+        ph->next = (struct Node*)malloc(sizeof(struct Node));//开辟下一结点空间
+        if(tmp)
+            ph = ph->next;//为真表示后面还有结点，ph指向下一结点
+        else
+            ph->next = NULL;//为假表示后面没结点了
+        p = tmp;//p指向p的下一结点
+    }
+    ph = phead;//再复制phead到ph
+    while(ph)
+    {
+        if(ph->random)//random指向空则不执行
+            ph->random = ph->random->next;//random指向的修正
+        ph = ph->next;//指向下一结点
+    }
+    return phead;
+}

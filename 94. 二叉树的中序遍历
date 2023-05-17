@@ -1,0 +1,14 @@
+void _inorder(struct TreeNode*root,int* ret,int* returnSize)
+{
+    if(root==NULL)
+        return;
+    _inorder(root->left,ret,returnSize);
+    ret[(*returnSize)++]=root->val;
+    _inorder(root->right,ret,returnSize);
+} 
+int* inorderTraversal(struct TreeNode* root, int* returnSize){
+    int* ret=malloc(sizeof(int)*200);
+    *returnSize=0;
+    _inorder(root,ret,returnSize);
+    return ret;
+}

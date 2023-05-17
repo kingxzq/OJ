@@ -1,0 +1,15 @@
+ void _posorder(struct TreeNode*root,int* ret,int* returnSize)
+{
+    if(root==NULL)
+        return;
+    _posorder(root->left,ret,returnSize);
+    _posorder(root->right,ret,returnSize);
+    ret[(*returnSize)++]=root->val;
+    
+} 
+int* postorderTraversal(struct TreeNode* root, int* returnSize){
+    int* ret=malloc(sizeof(int)*200);
+    *returnSize=0;
+    _posorder(root,ret,returnSize);
+    return ret;
+}

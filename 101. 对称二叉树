@@ -1,0 +1,14 @@
+bool ret(struct TreeNode* p,struct TreeNode* q)
+{
+    if(!p&&!q)
+        return true;
+    else if(!p||!q)
+        return false;
+    else if(p->val!=q->val)
+        return false;
+    else
+        return ret(p->left,q->right)&&ret(p->right,q->left);
+}
+bool isSymmetric(struct TreeNode* root){
+    return ret(root,root);
+}

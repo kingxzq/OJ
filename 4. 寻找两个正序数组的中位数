@@ -1,0 +1,114 @@
+double findMedianSortedArrays(int* nums1, int nums1Size, int* nums2, int nums2Size){
+    int sz=nums1Size+nums2Size;
+    int* nums3=malloc(sizeof(int)*sz);
+    for(int i=0;i<nums1Size;i++)
+        nums3[i]=nums1[i];
+    int m=nums1Size-1,n=nums2Size-1,k=sz-1;
+    while(n>=0)
+    {
+        if(m<0||nums2[n]>nums3[m])
+            nums3[k--]=nums2[n--];
+        else
+            nums3[k--]=nums3[m--];
+    }
+    if(sz%2==0)
+        return (nums3[sz/2-1]+nums3[sz/2])/2.0;
+    else
+        return nums3[sz/2];
+}
+
+
+
+
+void Swap(int* px, int* py)
+{
+	int tmp = *px;
+	*px = *py;
+	*py = tmp;
+}
+void AdjustDown(int* a, int n, int parent)//向下调整
+{
+	int child = parent * 2 + 1;
+	while (child < n)
+	{
+		// 选出左右孩子中小的那一个
+		if (child + 1 < n && a[child + 1] > a[child])
+		{
+			++child;
+		}
+
+		// 如果小的孩子小于父亲，则交换，并继续向下调整
+		if (a[child] > a[parent])
+		{
+			Swap(&a[child], &a[parent]);
+			parent = child;
+			child = parent * 2 + 1;
+		}
+		else
+		{
+			break;
+		}
+	}
+}
+
+// 堆排序 -- O（N*logN）
+void HeapSort(int* a, int n)
+{
+	// O(N)
+	for (int i = (n - 1 - 1) / 2; i >= 0; --i)
+	{
+		AdjustDown(a, n, i);
+	}
+
+	// O(N*logN)
+	int end = n - 1;
+	while (end > 0)
+	{
+		Swap(&a[0], &a[end]);
+		AdjustDown(a, end, 0);
+		--end;
+	}
+}
+void ShellSort(int* a, int n)
+{
+	// 多次预排序(gap > 1) +直接插入 (gap == 1)
+	int gap = n;
+	while (gap > 1)
+	{
+		gap = gap / 3 + 1;
+		
+		for (int i = 0; i < n - gap; ++i)
+		{
+			int end = i;
+			int x = a[end + gap];
+			while (end >= 0)
+			{
+				if (a[end] > x)
+				{
+					a[end + gap] = a[end];
+					end -= gap;
+				}
+				else
+				{
+					break;
+				}
+			}
+
+			a[end + gap] = x;
+		}
+	}	
+}
+
+double findMedianSortedArrays(int* nums1, int nums1Size, int* nums2, int nums2Size){
+    int sz=nums1Size+nums2Size;
+    int* nums3=malloc(sizeof(int)*sz);
+    for(int i=0;i<nums1Size;i++)
+        nums3[i]=nums1[i];
+    for(int i=nums1Size,j=0;i<sz;i++,j++)
+        nums3[i]=nums2[j];
+    ShellSort(nums3,sz);
+    if(sz%2==0)
+        return (nums3[sz/2-1]+nums3[sz/2])/2.0;
+    else
+        return nums3[sz/2];
+}

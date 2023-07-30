@@ -1,0 +1,39 @@
+class Solution {
+public:
+    string addStrings(string num1, string num2) {
+        string add;
+        int end1 =num1.size()-1;
+        int end2 =num2.size()-1;
+        int v1 = 0, v2 =0, next=0;
+        while(end1>=0||end2>=0)
+        {
+            if(end1>=0)
+                v1=num1[end1--]-'0';
+            else
+                v1=0;
+
+            if(end2>=0)
+                v2=num2[end2--]-'0';
+            else
+                v2=0;
+
+            int sum=v1+v2+next;
+            if(sum>9)
+            {
+                next=1;
+                sum-=10;
+            }
+            else{
+                next=0;
+            }
+            add.insert(add.begin(),sum+'0');
+        }
+
+        if(next==1)
+        {
+            add.insert(add.begin(),'1');
+        }
+
+        return add;
+    }
+};

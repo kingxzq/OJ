@@ -1,0 +1,15 @@
+struct ListNode* removeNodes(struct ListNode* head) {
+    if (head == NULL) {
+        return NULL;
+    }
+
+    struct ListNode* nextNode = removeNodes(head->next);
+
+    if (nextNode != NULL && nextNode->val > head->val) {
+        free(head);
+        return nextNode;
+    }
+
+    head->next = nextNode;
+    return head;
+}

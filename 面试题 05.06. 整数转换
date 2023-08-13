@@ -1,0 +1,12 @@
+class Solution {
+public:
+    int convertInteger(int A, int B) {
+        uint32_t n = A ^ B;
+        uint32_t ret = 0;
+        while (n) {
+            n &= (n - 1);
+            ++ret;
+        }
+        return ret;
+    }
+};

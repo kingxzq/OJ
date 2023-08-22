@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<int> masterMind(string solution, string guess) {
+        vector<int> answer(2,0);
+        unordered_map<char,int> m;
+        for(int i=0;i<4;i++)
+        {
+            //先统计一遍solution中字符出现次数
+            ++m[solution[i]];
+            //如果有猜中了的，就把该字符出现次数减一，因为猜中了不算伪猜中
+            if(solution[i]==guess[i])
+            {
+                ++answer[0];
+                --m[solution[i]];
+            }
+        }
+        for(int i=0;i<4;i++)
+        {
+            //遍历guess，如果这个字符出现过并且不是猜中了的情况，就加加，然后把这个字符出现的次数减一
+            if(m[guess[i]] > 0 && solution[i]!=guess[i])
+            {
+                ++answer[1];
+                --m[guess[i]];
+            }
+        }
+        return answer;
+    }
+};

@@ -1,0 +1,29 @@
+class Solution {
+public:
+    TreeNode* _buildTree(vector<int>& postorder,vector<int>& inorder,int& prei,int inbegin,int inend){
+        if(inbegin>inend)
+            return nullptr;
+        
+        TreeNode* root=new TreeNode(postorder[prei--]);
+
+        int ini=inend;
+        while(ini>=inbegin)
+        {
+            if(inorder[ini]==root->val)
+                break;
+            else
+                --ini;
+        }
+        
+        root->right=_buildTree(postorder,inorder,prei,ini+1,inend);
+        root->left=_buildTree(postorder,inorder,prei,inbegin,ini-1);
+
+
+        return root;
+    }
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        int i=0;
+        int prei=postorder.size()-1;
+        return _buildTree(postorder,inorder,prei,0,inorder.size()-1);
+    }
+};

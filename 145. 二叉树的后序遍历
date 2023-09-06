@@ -13,3 +13,33 @@ int* postorderTraversal(struct TreeNode* root, int* returnSize){
     _posorder(root,ret,returnSize);
     return ret;
 }
+
+
+//迭代实现
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        stack<TreeNode*> st;
+        vector<int> v;
+        TreeNode* cur = root;
+        TreeNode* prev=nullptr;
+        while (cur || !st.empty()) { 
+            while (cur) {
+                st.push(cur);
+                cur = cur->left;
+            }
+            TreeNode* top = st.top();
+            if(top->right==nullptr||top->right==prev)
+            {
+                v.push_back(top->val);
+                prev=top;
+                cur=nullptr;
+
+                st.pop();
+            }
+            else
+                cur=top->right;
+        }
+        return v;
+    }
+};

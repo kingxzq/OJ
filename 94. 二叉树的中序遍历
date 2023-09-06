@@ -12,3 +12,27 @@ int* inorderTraversal(struct TreeNode* root, int* returnSize){
     _inorder(root,ret,returnSize);
     return ret;
 }
+
+
+
+//迭代写法
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        stack<TreeNode*> st;
+        vector<int> v;
+        TreeNode* cur = root;
+        while (cur || !st.empty()) { 
+            while (cur) {
+                st.push(cur);
+                cur = cur->left;
+            }
+            TreeNode* top = st.top();
+            st.pop();
+            v.push_back(top->val);
+
+            cur = top->right;
+        }
+        return v;
+    }
+};

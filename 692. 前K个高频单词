@@ -1,0 +1,60 @@
+class Solution {
+public:
+    struct Less
+    {
+        bool operator()(const pair<string,int>& kv1,const pair<string,int>& kv2) const
+        {
+            if(kv1.second<kv2.second)
+                return true;
+            if(kv1.second==kv2.second&&kv1.first>kv2.first)
+                return true;
+            
+            return false;
+        }
+    };
+    
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        map<string,int> countMap;
+        for(auto& str:words)
+            countMap[str]++;
+
+        typedef priority_queue<pair<string,int>,vector<pair<string,int>>,Less> maxHeap;
+        maxHeap mh(countMap.begin(),countMap.end());
+
+        vector<string> v;
+
+        while(k--)
+        {
+            v.push_back(mh.top().first);
+            mh.pop();
+        }
+        return v;
+    }
+};
+
+
+
+
+
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        map<string,int> countmap;
+        for(auto& str: words)
+            countmap[str]++;
+
+        multimap<int,string,greater<int>> sortMap;
+        for(auto& kv : countmap)
+            sortMap.insert(make_pair(kv.second,kv.first));
+
+        vector<string> v;
+        multimap<int,string,greater<int>>::iterator it=sortMap.begin();
+
+        for(size_t i=0;i<k;++i)
+        {
+            v.push_back(it->second);
+            ++it;
+        }
+        return v;
+    }
+};

@@ -1,0 +1,14 @@
+class Solution {
+    bool _isSymmetric(TreeNode* l,TreeNode* r)
+    {
+        if(!l&&!r)
+            return true;
+        else if(!l||!r||l->val!=r->val)
+            return false;
+        return _isSymmetric(l->left,r->right)&&_isSymmetric(l->right,r->left);
+    }
+public:
+    bool isSymmetric(TreeNode* root) {
+        return _isSymmetric(root,root);
+    }
+};

@@ -1,0 +1,40 @@
+class Solution {
+    struct compareNodes {
+        bool operator()(ListNode* a, ListNode* b) {
+            return a->val > b->val;
+        }
+    };
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        // 定义一个最小堆，用于维护当前最小的节点
+        priority_queue<ListNode*, vector<ListNode*>, compareNodes> minHeap;
+
+        // 将每个链表的头节点加入堆中
+        for (ListNode* node : lists) {
+            if (node) {
+                minHeap.push(node);
+            }
+        }
+
+        // 创建一个哨兵节点，方便操作链表
+        ListNode dummy(0);
+        ListNode* current = &dummy;
+
+        while (!minHeap.empty()) {
+            // 取出堆顶的最小节点
+            ListNode* smallest = minHeap.top();
+            minHeap.pop();
+
+            // 将最小节点接入合并链表
+            current->next = smallest;
+            current = current->next;
+
+            // 如果最小节点还有下一个节点，将其加入堆中
+            if (smallest->next) {
+                minHeap.push(smallest->next);
+            }
+        }
+
+        return dummy.next;
+    }
+};

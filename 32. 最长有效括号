@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+         stack<int> stk;
+        int maxl = 0;
+        int start = -1; // 记录有效括号子串的起始位置
+
+        for (int i = 0; i < s.size(); ++i) {
+            if (s[i] == '(')
+                stk.push(i);
+            else 
+            {
+                if (stk.empty())
+                    start = i; // 无法匹配，更新起始位置
+                else
+                {
+                    stk.pop();
+                    if (stk.empty())
+                        maxl = max(maxl, i - start); // 匹配完成，更新最大长度
+                    else
+                        maxl = max(maxl, i - stk.top()); // 匹配完成，更新最大长度
+                }
+            }
+        }
+        return maxl; 
+    }
+};

@@ -1,0 +1,32 @@
+class RandomizedSet {
+public:
+    RandomizedSet() {
+        srand(time(NULL));
+    }
+    
+    bool insert(int val) {
+        if (valSet.count(val)) {
+            return false;
+        }
+        valSet.insert(val);
+        return true;
+    }
+    
+    bool remove(int val) {
+        if (!valSet.count(val)) {
+            return false;
+        }
+        valSet.erase(val);
+        return true;
+    }
+    
+    int getRandom() {
+        int randomIndex = rand() % valSet.size();
+        auto it = valSet.begin();
+        advance(it, randomIndex);
+        return *it;
+    }
+    
+private:
+    unordered_set<int> valSet;
+};

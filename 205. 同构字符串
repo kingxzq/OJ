@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        int n1=s.size();
+        int n2=t.size();
+        
+        if(n1!=n2)
+            return false;
+        
+        unordered_map<char,char> s2t,t2s; 
+        for(int i=0;i<n1;++i){
+            char a=s[i],b=t[i];
+            if((s2t.find(a)!=s2t.end()&&s2t[a]!=b)||(t2s.find(b)!=t2s.end()&&t2s[b]!=a))
+                return false;
+            
+            s2t[a]=b;
+            t2s[b]=a;
+        }
+        
+        return true;
+    }
+};

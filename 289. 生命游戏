@@ -1,0 +1,47 @@
+class Solution {
+public:
+    void gameOfLife(vector<vector<int>>& board) {
+        int m = board.size();
+        int n = board[0].size();
+
+        vector<vector<int>> directions = {
+            {-1, -1}, {-1, 0}, {-1, 1},
+            {0, -1},           {0, 1},
+            {1, -1}, {1, 0}, {1, 1}
+        };
+
+        vector<pair<int, int>> liveCells;
+        vector<pair<int, int>> deadCells;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int liveNeighbors = 0;
+
+                for (int z=0;z<directions.size();++z) {
+                    int x = i + directions[z][0];
+                    int y = j + directions[z][1];
+
+                    if (x >= 0 && x < m && y >= 0 && y < n && (board[x][y] == 1 || board[x][y] == 2)) {
+                        liveNeighbors++;
+                    }
+                }
+
+                if (board[i][j] == 1 && (liveNeighbors < 2 || liveNeighbors > 3)) {
+                    board[i][j] = 2; // 1 -> 0 (mark for death)
+                } else if (board[i][j] == 0 && liveNeighbors == 3) {
+                    board[i][j] = 3; // 0 -> 1 (mark for birth)
+                }
+            }
+        }
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == 2) {
+                    board[i][j] = 0;
+                } else if (board[i][j] == 3) {
+                    board[i][j] = 1;
+                }
+            }
+        }
+    }
+};

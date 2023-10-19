@@ -1,0 +1,30 @@
+class Solution {
+public:
+    bool wordPattern(string pattern, string s) {
+        vector<string> s1;
+        int n=s.size();
+        istringstream iss(s);
+        string word;
+        
+        while(iss>>word)
+            s1.push_back(word);
+        
+        n=pattern.size();
+        if(s1.size()!=n)
+            return false;
+        
+        unordered_map<char,string> ch2str;
+        unordered_map<string,char> str2ch;
+        
+        for(int i=0;i<n;++i){
+            char a=pattern[i];
+            string b=s1[i];
+            if((ch2str.find(a)!=ch2str.end()&&ch2str[a]!=b)||(str2ch.find(b)!=str2ch.end()&&str2ch[b]!=a))
+                return false;
+            
+            ch2str[a]=b;
+            str2ch[b]=a;
+        }
+        return true;
+    }
+};

@@ -1,0 +1,23 @@
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        if(ransomNote.size()>magazine.size())
+            return false;
+        
+        int n1=ransomNote.size();
+        int n2=magazine.size();
+        
+        unordered_map<char,int> obj;
+        for(int i=0;i<n2;++i){
+            obj[magazine[i]]++;
+        }
+        
+        for(int i=0;i<n1;++i){
+            if(obj[ransomNote[i]]==0)
+                return false;
+            else
+                obj[ransomNote[i]]--;
+        }
+        return true;
+    }
+};

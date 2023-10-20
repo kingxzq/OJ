@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        unordered_set<int> sortnum;
+        for(auto num:nums)
+            sortnum.insert(num);
+        
+        int longest=0;
+        for(const auto& num:sortnum){
+            if(!sortnum.count(num-1)){
+                int cur=num;
+                int curcount=1;
+                
+                while(sortnum.count(cur+1)){
+                    cur++;
+                    curcount++;
+                }
+                
+                longest=max(longest,curcount);
+            }
+        }
+        return longest;
+    }
+};

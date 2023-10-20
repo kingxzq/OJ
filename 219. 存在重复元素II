@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        int n=nums.size();
+        unordered_map<int,vector<int>> search;
+        
+        for(int i=0;i<n;++i){
+            search[nums[i]].emplace_back(i);
+        }
+        
+        
+        for(auto it:nums){
+            if(search[it].size()>1){
+                for(int i=1;i<search[it].size();++i){
+                    if(abs(search[it][i-1]-search[it][i])<=k)
+                        return true;
+                }   
+            }
+        }
+        return false;
+    }
+};

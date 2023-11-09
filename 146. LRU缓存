@@ -1,0 +1,47 @@
+class LRUCache {
+public:
+    LRUCache(int capacity) 
+        : _capacity(capacity)
+    {
+    }
+    
+    // 获取缓存中指定键的值
+    int get(int key) {
+        auto it = cache.find(key);
+        if (it != cache.end()) {
+            // 将访问过的项移到列表的最前面
+            lru.splice(lru.begin(), lru, it->second);
+            return it->second->second;
+        }
+        return -1; // 未找到键
+    }
+    
+    // 插入或更新缓存中的键值对
+    void put(int key, int value) {
+        auto it = cache.find(key);
+        if (it != cache.end()) {
+            // 更新值并将项移到列表最前面
+            it->second->second = value;
+            lru.splice(lru.begin(), lru, it->second);
+        } else {
+            // 检查缓存是否已满
+            if (cache.size() >= _capacity) {
+                // 从列表和缓存中移除最久未使用的项
+                int keyToRemove = lru.back().first;
+                cache.erase(keyToRemove);
+                lru.pop_back();
+            }
+            // 将新项插入到列表最前面和缓存中
+            lru.push_front({key, value});
+            cache[key] = lru.begin();
+        }
+    }
+    
+private:
+    // 使用无序映射存储键值对的位置
+    unordered_map<int, list<pair<int, int>>::iterator> cache;
+    // 使用列表维护LRU顺序
+    list<pair<int, int>> lru;
+    // 缓存容量
+    int _capacity;
+};

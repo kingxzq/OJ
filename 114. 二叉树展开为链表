@@ -1,0 +1,19 @@
+class Solution {
+public:
+    void flatten(TreeNode* root) {
+        vector<TreeNode*> vroot;
+        preorder(root,vroot);
+        for(int i=1;i<vroot.size();++i){
+            vroot[i-1]->left=nullptr;
+            vroot[i-1]->right=vroot[i];
+        }
+    }
+    
+    void preorder(TreeNode* root,vector<TreeNode*>& vroot){
+        if(root){
+            vroot.push_back(root);
+            preorder(root->left,vroot);
+            preorder(root->right,vroot);
+        }
+    }
+};

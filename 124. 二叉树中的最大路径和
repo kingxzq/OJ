@@ -1,0 +1,23 @@
+class Solution {
+private:
+    int maxNum=INT_MIN;
+public:
+    int maxGain(TreeNode* Node){
+        if(!Node)
+            return 0;
+        
+        int leftGain=max(maxGain(Node->left),0);
+        int rightGain=max(maxGain(Node->right),0);
+        
+        int sumGain=Node->val+leftGain+rightGain;
+        maxNum=max(maxNum,sumGain);
+        
+        return Node->val+max(leftGain,rightGain);
+        
+        
+    }
+    int maxPathSum(TreeNode* root) {
+        maxGain(root);
+        return maxNum;
+    }
+};

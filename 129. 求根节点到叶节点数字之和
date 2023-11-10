@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int leafsum(TreeNode* root,int presum){
+        if(!root)
+            return 0;
+        
+        int sum=presum*10+root->val;
+        
+        if(!root->left&&!root->right)
+            return sum;
+        
+        return leafsum(root->left,sum)+
+                leafsum(root->right,sum);
+    }
+    
+    int sumNumbers(TreeNode* root) {
+        return leafsum(root,0);
+    }
+};

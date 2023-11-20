@@ -33,3 +33,17 @@ public:
         return true;
     }
 };
+
+
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        string begin;
+        for(char c:s){
+            if(isalnum(c))
+                begin+=tolower(c);
+        }
+        string rbegin(begin.rbegin(),begin.rend());
+        return begin==rbegin;
+    }
+};

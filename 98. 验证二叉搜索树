@@ -1,0 +1,23 @@
+class Solution {
+    vector<int> res;
+public:
+    void bfs(TreeNode* root){
+        if(!root)
+            return;
+        bfs(root->left);
+        res.emplace_back(root->val);
+        bfs(root->right);
+    }
+    bool isValidBST(TreeNode* root) {
+        bfs(root);
+        vector<int> comp(res);
+        sort(res.begin(),res.end());
+        int n=res.size();
+        if(res[0]!=comp[0])return false;
+        for(int i=1;i<n;++i){
+            if(res[i]!=comp[i]||res[i]==res[i-1])
+                return false;
+        }
+        return true;
+    }
+};

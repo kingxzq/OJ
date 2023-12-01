@@ -1,0 +1,44 @@
+class Solution {
+public:
+    unordered_map<string,unordered_map<string,double>> graph;
+    
+    double dfs(const string& current,const string& target,double currentvalue,unordered_map<string,bool> visited){
+        if(visited.find(current)!=visited.end()) return 0.0;
+        
+        if(target==current) return currentvalue;
+        
+        visited[current]=true;
+        
+        for(const auto& neighbor:graph[current]){
+            double res=dfs(neighbor.first,target,currentvalue * neighbor.second,visited);
+            if(res!=0.0) return res;
+        }
+        return 0.0;
+    }
+    
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
+        for(int i=0;i<equations.size();++i){
+            const string& a=equations[i][0];
+            const string& b=equations[i][1];
+            
+            graph[a][b]=values[i];
+            graph[b][a]=1.0/values[i];
+        }
+        
+        vector<double> result;
+        
+        for(const auto& querie : queries){
+            const string& start=querie[0];
+            const string& end=querie[1];
+            
+            if(graph.find(start)==graph.end()||graph.find(end)==graph.end())
+                result.push_back(-1.0);
+            else{
+                unordered_map<string,bool> visited;
+                double res = dfs(start,end,1.0,visited);
+                result.push_back((res==0.0)?-1.0:res);        
+            }
+        }
+        return result;
+    }
+};

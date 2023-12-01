@@ -1,0 +1,14 @@
+class Solution {
+public:
+    bool containsNearbyAlmostDuplicate(vector<int>& nums, int indexDiff, int valueDiff) {
+        set<int> res;
+        for(int i=0;i<nums.size();++i){
+            auto cur=res.lower_bound(nums[i]-valueDiff);
+            if(cur!=res.end()&& *cur<=(nums[i]+valueDiff)) return true;
+
+            res.insert(nums[i]);
+            if(i>=indexDiff) res.erase(nums[i-indexDiff]);
+        }
+        return false;
+    }
+};

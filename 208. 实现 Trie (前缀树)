@@ -1,0 +1,25 @@
+class Trie {
+    set<string> Word;
+public:
+    Trie() {
+
+    }
+    
+    void insert(string word) {
+        Word.insert(word);
+    }
+    
+    bool search(string word) {
+        if(Word.find(word)!=Word.end()) return true;
+        else return false;
+    }
+    
+    bool startsWith(string prefix) {
+        for (const auto& word : Word) {
+            if (word.find(prefix) == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+};

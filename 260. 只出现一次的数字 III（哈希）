@@ -1,0 +1,13 @@
+class Solution {
+public:
+    vector<int> singleNumber(vector<int>& nums) {
+        unordered_map<int,int> times;
+        vector<int> ret;
+
+        for(auto e:nums) times[e]++;
+        for(auto it:nums)
+            if(times[it]==1) ret.push_back(it);
+        
+        return ret;
+    }
+};

@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int myAtoi(std::string s) {
+        long long tmp = 0;
+        int ret = 0;
+        int sign = 1;
+        bool hasSign = false;
+        bool pre=false;
+
+        for (auto it : s) {
+            if (tmp > INT_MAX || tmp < INT_MIN) {
+                return sign == 1 ? INT_MAX : INT_MIN;
+            } else if (it >= '0' && it <= '9') {
+                tmp = tmp * 10 + (it - '0');
+                pre=true;
+                hasSign = true;
+            } else if (!pre && it == '-' && !hasSign) {
+                sign = -1;
+                hasSign = true;
+            } else if (it == '+' && !hasSign) {
+                hasSign = true;
+            } else if (it == ' ' && !hasSign) {
+                continue; // 跳过前导空格
+            } else {
+                break; // 遇到非数字字符，结束循环
+            }
+        }
+
+        if (tmp > INT_MAX || tmp < INT_MIN) {
+            return sign == 1 ? INT_MAX : INT_MIN;
+        }
+
+        ret = sign * tmp;
+        return ret;
+    }
+};

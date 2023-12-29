@@ -1,0 +1,13 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> ret;
+        for(int left=0,right=nums.size()-1;left<right;){
+            int sum=nums[left]+nums[right];
+            if(sum>target) right--;
+            else if(sum<target) left++;
+            else return {nums[left],nums[right]};
+        }
+        return {};
+    }
+};

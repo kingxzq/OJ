@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        vector<int> ret;
+        int hash1[26]={0};
+        int hash2[26]={0};
+        for(const auto& c:p) hash1[c-'a']++;
+
+        int n=s.size(),m=p.size(),count=0;
+
+        for(int left=0,right=0;right<n;++right){
+            char c1=s[right];
+            if(++hash2[c1-'a']<=hash1[c1-'a']) count++;
+            if(right-left+1>m){
+                char c2=s[left++];
+                if(hash2[c2-'a']--<=hash1[c2-'a']) count--;
+            }
+            if(count==m) ret.push_back(left);
+        }
+        return ret;
+    }
+};

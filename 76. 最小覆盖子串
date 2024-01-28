@@ -1,0 +1,27 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        int hash1[128]={0};
+        int hash2[128]={0};
+        int kind=0;
+        for(const auto& ch:t) 
+            if(hash1[ch]++==0) kind++;
+        
+        int begin=-1,minl=INT_MAX,n=s.size();
+        for(int left=0,right=0,count=0;right<n;++right){
+            char c1=s[right];
+            if(++hash2[c1]==hash1[c1]) count++;
+            while(count==kind){
+                if(right-left+1<minl){
+                    minl=right-left+1;
+                    begin=left;
+                }
+                char c2=s[left++];
+                if(hash2[c2]--==hash1[c2]) count--;
+            }
+        }
+
+        if(begin==-1) return "";
+        return s.substr(begin,minl);
+    }
+};

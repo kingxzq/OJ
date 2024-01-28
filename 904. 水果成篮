@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+        int hash[100001]={0};
+
+        int ret=0,kind=0,n=fruits.size();
+        for(int left=0,right=0;right<n;++right){
+            if(hash[fruits[right]]==0) kind++;
+            hash[fruits[right]]++;
+
+            if(kind>2){
+                hash[fruits[left]]--;
+                if(hash[fruits[left]]==0) kind--;
+                left++;
+            }
+
+            ret=max(ret,right-left+1);
+        }
+        return ret;
+    }
+};

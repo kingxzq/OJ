@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int minOperations(vector<int>& nums, int x) {
+        int n=nums.size(),sum=0,ret=-1;
+        for(const auto& num : nums) sum+=num;
+        int t=sum-x;
+        if(t<0) return -1;
+
+        for(int left=0,right=0,tmp=0;right<n;++right){
+            tmp+=nums[right];
+            while(tmp>t) tmp-=nums[left++];
+            if(tmp==t) ret=max(ret,right-left+1);
+        }
+
+        if(ret==-1) return -1;
+        else return n-ret;
+    }
+};

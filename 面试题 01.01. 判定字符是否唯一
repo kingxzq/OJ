@@ -1,0 +1,12 @@
+class Solution {
+public:
+    bool isUnique(string astr) {
+        int n=astr.size(),c=0;
+        for(int i=0;i<n;++i){
+            int t='z'-astr[i];
+            if((c>>t)&1) return false;
+            else c|=(1<<t); 
+        }
+        return true;
+    }
+};

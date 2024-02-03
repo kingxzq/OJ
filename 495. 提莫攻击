@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int findPoisonedDuration(vector<int>& timeSeries, int duration) {
+        int n = timeSeries.size();  // 获取时间序列的长度
+        int sum = duration;         // 初始化总持续时间为一个初始的毒药持续时间
+
+        // 循环遍历时间序列
+        for (int i = 1; i < n; ++i) {
+            // 计算当前时间点与上一个时间点之间的时间差，并取较小值与毒药持续时间相加
+            sum += min(abs(timeSeries[i] - timeSeries[i - 1]), duration);
+        }
+
+        return sum;  // 返回总持续时间
+    }
+};

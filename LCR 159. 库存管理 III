@@ -1,0 +1,24 @@
+class Solution {
+public:
+    void qsort(vector<int>& nums,int l,int r,int k){
+        if(l>=r) return;
+
+        int key=nums[rand()%(r-l+1)+l];
+        int left=l-1,right=r+1,i=l;
+        while(i<right){
+            if(nums[i]<key) swap(nums[++left],nums[i++]);
+            else if(nums[i]==key) i++;
+            else swap(nums[--right],nums[i]);
+        }
+
+        int a=left-l+1,b=right-left-1;
+        if(a>k) qsort(nums,l,left,k);
+        else if(a+b>=k) return;
+        else qsort(nums,right,r,k-a-b);
+    }
+    vector<int> inventoryManagement(vector<int>& stock, int cnt) {
+        srand(time(NULL));
+        qsort(stock,0,stock.size()-1,cnt);
+        return {stock.begin(),stock.begin()+cnt};
+    }
+};

@@ -1,0 +1,26 @@
+class Solution {
+public:
+    bool CheckPermutation(string s1, string s2) {
+        // 如果两个字符串长度不相等，直接返回 false
+        if(s1.size() != s2.size()) return false;
+
+        int hash[26] = {0}; // 用于统计每个字符在 s1 中的出现次数
+
+        // 统计 s1 中每个字符的出现次数
+        for(char& c : s1) {
+            hash[c - 'a']++;
+        }
+
+        // 遍历 s2 中的字符
+        for(char& c : s2) {
+            // 如果字符 c 在 s1 中不存在或出现次数已经用尽，返回 false
+            if(hash[c - 'a'] == 0) {
+                return false;
+            }
+            hash[c - 'a']--; // 减少字符 c 在 s1 中的出现次数
+        }
+
+        // 如果遍历完 s2 后每个字符在 s1 中的出现次数都匹配，返回 true
+        return true;
+    }
+};

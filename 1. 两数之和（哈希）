@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        // 哈希表，用于存储元素值及其对应的索引
+        unordered_map<int, int> hash;
+        
+        int n = nums.size();
+        
+        for(int i = 0; i < n; ++i) {
+            int x = target - nums[i]; // 计算目标值与当前元素的差值
+            if(hash.count(x)) {
+                // 如果差值在哈希表中存在，说明找到了两个数的和等于目标值
+                return {hash[x], i};
+            }
+            hash[nums[i]] = i; // 将当前元素值及其索引存入哈希表
+        }
+        
+        // 如果未找到符合条件的两个数，返回 {-1, -1}
+        return {-1, -1};
+    }
+};

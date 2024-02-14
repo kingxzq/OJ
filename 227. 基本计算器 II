@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int calculate(string s) {
+        vector<int> st;
+        char op='+';
+        int n=s.size(),i=0,ret=0;
+        while(i<n){
+            if(s[i]==' ') i++;
+            else if(s[i]>='0'&&s[i]<='9'){
+                int tmp=0;
+                while(i<n&&s[i]>='0'&&s[i]<='9') tmp=tmp*10+(s[i++]-'0');
+                if(op=='+') st.push_back(tmp);
+                else if(op=='-') st.push_back(-tmp);
+                else if(op=='*') st.back() *=tmp;
+                else if(op=='/') st.back() /=tmp;
+            }else op=s[i++];
+        }
+
+        for(int& i:st) ret+=i;
+
+        return ret;
+    }
+};

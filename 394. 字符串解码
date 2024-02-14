@@ -1,0 +1,45 @@
+class Solution {
+public:
+    string decodeString(string s) {
+        // 使用两个栈，一个用于存储字符串，另一个用于存储数字
+        stack<string> st;
+        stack<int> nums;
+        // 初始化栈，将一个空字符串入栈，用于存储当前解码的结果
+        st.push("");
+        int i = 0, n = s.size();
+
+        // 遍历输入字符串
+        while (i < n) {
+            // 如果当前字符是数字，解析数字并入数字栈
+            if (s[i] >= '0' && s[i] <= '9') {
+                int tmp = 0;
+                while (s[i] >= '0' && s[i] <= '9') tmp = tmp * 10 + (s[i++] - '0');
+                nums.push(tmp);
+            }
+            // 如果当前字符是'['，入栈一个空字符串，用于存储当前括号内的解码结果
+            else if (s[i] == '[') {
+                i++;
+                string tmp;
+                while (s[i] >= 'a' && s[i] <= 'z') tmp += s[i++];
+                st.push(tmp);
+            }
+            // 如果当前字符是']'，将栈顶字符串重复相应次数后，与前一个栈顶字符串拼接
+            else if (s[i] == ']') {
+                string tmp = st.top();
+                st.pop();
+                int k = nums.top();
+                nums.pop();
+                while (k--) st.top() += tmp;
+                i++;
+            }
+            // 如果当前字符是字母，将字母拼接到栈顶字符串
+            else {
+                string tmp;
+                while (i < n && s[i] >= 'a' && s[i] <= 'z') tmp += s[i++];
+                st.top() += tmp;
+            }
+        }
+        // 最终栈中存储的即为解码结果
+        return st.top();
+    }
+};

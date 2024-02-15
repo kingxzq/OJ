@@ -1,0 +1,23 @@
+class Solution {
+    const int dx[4]={0,0,1,-1};
+    const int dy[4]={-1,1,0,0};
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        int prev=image[sr][sc];
+        if(prev==color) return image;
+        int m=image.size(),n=image[0].size();
+
+        queue<pair<int,int>> q;
+        q.push({sr,sc});
+        while(!q.empty()){
+            auto [a,b] = q.front();
+            q.pop();
+            image[a][b]=color;
+            for(int i=0;i<4;++i){
+                int x=a+dx[i],y=b+dy[i];
+                if(x>=0&&x<m&&y>=0&&y<n&&image[x][y]==prev) q.push({x,y});
+            }
+        }
+        return image;
+    }
+};

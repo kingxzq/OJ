@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int lastStoneWeight(vector<int>& stones) {
+        priority_queue<int> heap;
+        for(int x:stones) heap.push(x);
+
+        while(heap.size()>1){
+            int a=heap.top(); heap.pop();
+            int b=heap.top(); heap.pop();
+            if(a>b) heap.push(a-b);
+        }
+
+        return heap.size()?heap.top():0;
+    }
+};

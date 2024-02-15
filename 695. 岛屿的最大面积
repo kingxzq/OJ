@@ -1,0 +1,47 @@
+class Solution {
+    const int dx[4] = {0, 0, 1, -1};  // 上、下、右、左四个方向的相对坐标变化
+    const int dy[4] = {-1, 1, 0, 0};
+    queue<pair<int, int>> q;  // 用于BFS的队列
+    int m, n;  // m 表示行数，n 表示列数
+
+    // BFS 函数，从起点 (i, j) 开始遍历并标记属于同一岛屿的所有位置
+    int bfs(vector<vector<int>>& grid, int i, int j) {
+        int count = 1;  // 记录岛屿的大小
+        q.push({i, j});  // 将起点入队
+        grid[i][j] = 0;  // 标记已经遍历过的位置
+
+        while (!q.empty()) {
+            auto [a, b] = q.front();
+            q.pop();
+
+            for (int k = 0; k < 4; ++k) {
+                int x = a + dx[k], y = b + dy[k];
+                // 判断新的坐标是否越界，并且是岛屿的一部分
+                if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] == 1) {
+                    grid[x][y] = 0;  // 标记已经遍历过的位置
+                    count++;  // 增加岛屿的大小
+                    q.push({x, y});  // 将相邻的岛屿位置入队
+                }
+            }
+        }
+        return count;
+    }
+
+public:
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        int ret = 0;  // 记录最大岛屿面积
+        m = grid.size();  // 获取行数
+        n = grid[0].size();  // 获取列数
+
+        // 遍历整个网格
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1) {
+                    ret = max(ret, bfs(grid, i, j));  // 计算并更新最大岛屿面积
+                }
+            }
+        }
+
+        return ret;  // 返回最大岛屿面积
+    }
+};

@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int minMutation(string startGene, string endGene, vector<string>& bank) {
+        unordered_set<string> vis;  // 用于记录已经访问过的基因序列
+        unordered_set<string> hash(bank.begin(), bank.end());  // 将基因库放入哈希集合中，方便查询是否是合法基因
+
+        if (startGene == endGene) return 0;  // 如果起始基因和目标基因相同，不需要变异，返回步数为0
+        if (!hash.count(endGene)) return -1;  // 如果目标基因不在基因库中，无法变异到目标基因，返回-1
+
+        string change = "ACGT";  // 可能的基因变异字符
+        queue<string> q;
+        q.push(startGene);
+        vis.insert(startGene);
+
+        int ret = 0;
+        while (!q.empty()) {
+            ret++;
+            int sz = q.size();
+            while (sz--) {
+                string t = q.front();
+                q.pop();
+                for (int i = 0; i < 8; ++i) {
+                    string tmp = t;
+                    for (int j = 0; j < 4; ++j) {
+                        tmp[i] = change[j];  // 尝试将当前位置的基因变异为可能的字符
+                        if (hash.count(tmp) && !vis.count(tmp)) {  // 如果变异后的基因是合法的且未被访问过
+                            if (tmp == endGene) return ret;  // 如果变异后的基因与目标基因相同，返回步数
+                            q.push(tmp);
+                            vis.insert(tmp);  // 标记为已访问
+                        }
+                    }
+                }
+            }
+        }
+        return -1;  // 如果队列为空仍未找到目标基因，说明无法变异到目标基因，返回-1
+    }
+};

@@ -1,0 +1,65 @@
+class Solution {
+    const int dx[4] = {0, 0, 1, -1};
+    const int dy[4] = {-1, 1, 0, 0};
+    int m, n;
+    int vis[51][51];
+
+    int bfs(vector<vector<int>>& forest, int bx, int by, int ex, int ey) {
+        if (bx == ex && by == ey) return 0;  // 如果起始位置和目标位置相同，步数为0
+
+        queue<pair<int, int>> q;
+        memset(vis, 0, sizeof vis);
+        q.push({bx, by});
+        vis[bx][by] = 1;
+
+        int step = 0;
+        while (!q.empty()) {
+            step++;
+            int sz = q.size();
+            while (sz--) {
+                auto [a, b] = q.front();
+                q.pop();
+                for (int i = 0; i < 4; ++i) {
+                    int x = a + dx[i], y = b + dy[i];
+                    if (x >= 0 && x < m && y >= 0 && y < n && forest[x][y] && !vis[x][y]) {
+                        if (x == ex && y == ey) return step;  // 如果到达目标位置，返回步数
+                        q.push({x, y});
+                        vis[x][y] = 1;  // 标记为已访问
+                    }
+                }
+            }
+        }
+        return -1;  // 如果未能到达目标位置，返回-1表示无法到达
+    }
+
+public:
+    int cutOffTree(vector<vector<int>>& forest) {
+        m = forest.size(), n = forest[0].size();
+        vector<pair<int, int>> trees;
+        
+        // 遍历整个矩形森林，将树木的位置加入trees数组中
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (forest[i][j] > 1) trees.push_back({i, j});
+            }
+        }
+
+        // 根据树木的高度进行排序
+        sort(trees.begin(), trees.end(), [&](const pair<int, int>& p1, const pair<int, int>& p2) {
+            return forest[p1.first][p1.second] < forest[p2.first][p2.second];
+        });
+
+        int bx = 0, by = 0;  // 起始位置为(0, 0)
+        int ret = 0;
+
+        // 遍历排好序的树木数组
+        for (auto& [a, b] : trees) {
+            // 使用BFS计算从当前位置到目标位置的步数
+            int step = bfs(forest, bx, by, a, b);
+            if (step == -1) return -1;  // 如果无法到达目标位置，返回-1
+            ret += step;  // 累加步数
+            bx = a, by = b;  // 更新起始位置
+        }
+        return ret;
+    }
+};

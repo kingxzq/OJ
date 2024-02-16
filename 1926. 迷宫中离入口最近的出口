@@ -1,0 +1,34 @@
+class Solution {
+    const int dx[4]={0,0,1,-1};
+    const int dy[4]={-1,1,0,0};
+
+public:
+    int nearestExit(vector<vector<char>>& maze, vector<int>& entrance) {
+        queue<pair<int,int>> q;
+        int m=maze.size(),n=maze[0].size();
+        int visit[m][n];
+        memset(visit,0,sizeof visit);
+        int step=0;
+
+        q.push({entrance[0],entrance[1]});
+        visit[entrance[0]][entrance[1]]=1;
+
+        while(!q.empty()){
+            step++;
+            int sz=q.size();
+            for(int i=0;i<sz;++i){
+                auto [a,b]=q.front();
+                q.pop();
+                for(int k=0;k<4;++k){
+                    int x=a+dx[k],y=b+dy[k];
+                    if(x>=0&&x<m&&y>=0&&y<n&&maze[x][y]=='.'&&!visit[x][y]){
+                        if(x==0||x==m-1||y==0||y==n-1) return step;
+                        q.push({x,y});
+                        visit[x][y]=1;
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+};

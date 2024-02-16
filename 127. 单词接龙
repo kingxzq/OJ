@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string> vis;  // 用于记录已经访问过的单词
+        unordered_set<string> hash(wordList.begin(), wordList.end());  // 将单词列表放入哈希集合中，方便查询是否是合法单词
+
+        if (beginWord == endWord) return 1;  // 如果起始单词和目标单词相同，不需要接龙，返回步数为1
+        if (!hash.count(endWord)) return 0;  // 如果目标单词不在单词列表中，无法接龙到目标单词，返回0
+
+        int ret = 1;
+        queue<string> q;
+        q.push(beginWord);
+        vis.insert(beginWord);
+
+        while (!q.empty()) {
+            ret++;
+            int sz = q.size();
+            while (sz--) {
+                string t = q.front();
+                q.pop();
+                for (int i = 0; i < t.size(); ++i) {
+                    string tmp = t;
+                    for (char c = 'a'; c <= 'z'; ++c) {
+                        tmp[i] = c;  // 尝试将当前位置的字符替换为可能的字符
+                        if (hash.count(tmp) && !vis.count(tmp)) {  // 如果替换后的单词是合法的且未被访问过
+                            if (tmp == endWord) return ret;  // 如果替换后的单词与目标单词相同，返回步数
+                            q.push(tmp);
+                            vis.insert(tmp);  // 标记为已访问
+                        }
+                    }
+                }
+            }
+        }
+        return 0;  // 如果队列为空仍未找到目标单词，说明无法接龙到目标单词，返回0
+    }
+};

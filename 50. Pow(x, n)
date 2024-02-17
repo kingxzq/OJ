@@ -1,0 +1,22 @@
+class Solution {
+public:
+    double myPow(double x, int n) {
+        // 如果指数n为负数，将问题转化为计算 x^(-n)，即取倒数
+        return n < 0 ? 1.0 / Pow(x, -(long long)n) : Pow(x, n);
+    }
+
+    double Pow(double x, long long n) {
+        // 递归终止条件：n为0时，任何数的0次方都为1
+        if (n == 0) 
+            return 1.0;
+        
+        // 递归调用，计算 x^(n/2)
+        double tmp = Pow(x, n / 2);
+        
+        // 如果n为奇数，返回 tmp * tmp * x
+        if (n % 2)
+            return tmp * tmp * x;
+        else // 如果n为偶数，返回 tmp * tmp
+            return tmp * tmp;
+    }
+};

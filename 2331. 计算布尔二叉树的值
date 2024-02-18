@@ -1,0 +1,11 @@
+class Solution {
+public:
+    bool evaluateTree(TreeNode* root) {
+        if(!root->left) return root->val;
+
+        int left = evaluateTree(root->left);
+        int right = evaluateTree(root->right);
+
+        return root->val==2?left|right:left&right;
+    }
+};

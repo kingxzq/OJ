@@ -1,0 +1,43 @@
+class Solution {
+    int ret=0,path=0,target;
+public:
+    int findTargetSumWays(vector<int>& nums, int _target) {
+        target=_target;
+        dfs(nums,0);
+        return ret;
+    }
+
+    void dfs(vector<int>& nums,int pos){
+        if(pos==nums.size()){
+            if(path==target) ret++;
+            return;
+        }
+        path+=nums[pos];
+        dfs(nums,pos+1);
+        path-=nums[pos];
+        path-=nums[pos];
+        dfs(nums,pos+1);
+        path+=nums[pos];
+    }
+};
+
+
+class Solution {
+    int ret=0,target;
+public:
+    int findTargetSumWays(vector<int>& nums, int _target) {
+        target=_target;
+        dfs(nums,0,0);
+        return ret;
+    }
+
+    void dfs(vector<int>& nums,int pos,int path){
+        if(pos==nums.size()){
+            if(path==target) ret++;
+            return;
+        }
+
+        dfs(nums,pos+1,path+nums[pos]);
+        dfs(nums,pos+1,path-nums[pos]);
+    }
+};

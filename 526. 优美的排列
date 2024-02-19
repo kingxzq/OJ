@@ -1,0 +1,25 @@
+class Solution {
+    bool check[16];
+    int ret=0,n;
+public:
+    int countArrangement(int _n) {
+        n=_n;
+        dfs(1);
+        return ret;
+    }
+
+    void dfs(int pos){
+        if(pos==n+1){
+            ret++;
+            return;
+        }
+
+        for(int i=1;i<=n;++i){
+            if(!check[i]&&(pos%i==0||i%pos==0)){
+                check[i]=true;
+                dfs(pos+1);
+                check[i]=false;
+            }
+        }
+    }
+};

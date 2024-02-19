@@ -1,0 +1,34 @@
+class Solution {
+    string path;
+    vector<string> ret;
+public:
+    vector<string> letterCasePermutation(string s) {
+        dfs(s,0);
+        return ret;
+    }
+
+    void dfs(string& s,int pos){
+        if(pos==s.size()){
+            ret.push_back(path);
+            return;
+        }
+
+        int ch=s[pos];
+        path.push_back(ch);
+        dfs(s,pos+1);
+        path.pop_back();
+
+        if(ch<'0'||ch>'9'){
+            int tmp=change(ch);
+            path.push_back(tmp);
+            dfs(s,pos+1);
+            path.pop_back();
+        }
+    }
+
+    char change(char ch){
+        if(ch>='a'&&ch<='z') ch-=32;
+        else ch+=32;
+        return ch;
+    }
+};

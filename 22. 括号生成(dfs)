@@ -1,0 +1,30 @@
+class Solution {
+    int left=0,right=0,n;
+    string path;
+    vector<string> ret;
+public:
+    vector<string> generateParenthesis(int _n) {
+        n=_n;
+        dfs();
+        return ret;
+    }
+
+    void dfs(){
+        if(right==n){
+            ret.push_back(path);
+            return;
+        }
+
+        if(left<n){
+            path.push_back('('); left++;
+            dfs();
+            path.pop_back(); left--;
+        }
+
+        if(right<left){
+            path.push_back(')'); right++;
+            dfs();
+            path.pop_back(); right--;
+        }
+    }
+};

@@ -1,0 +1,39 @@
+class Solution {
+    bool vis[21][21];
+    const int dx[4]={0,0,1,-1};
+    const int dy[4]={-1,1,0,0};
+    int m,n,ret=0;
+public:
+    int uniquePathsIII(vector<vector<int>>& grid) {
+        m=grid.size(),n=grid[0].size();
+        int count=0,left,right;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]==0) count++;
+                else if(grid[i][j]==1){
+                    left=i;
+                    right=j;
+                }
+            }
+        }
+        vis[left][right]=true;
+        dfs(grid,left,right,count+1);
+        return ret;
+    }
+
+    void dfs(vector<vector<int>>& grid,int left,int right,int count){
+        if(grid[left][right]==2){
+            if(!count) ret++;
+            return;
+        } 
+
+        for(int k=0;k<4;k++){
+            int x=left+dx[k],y=right+dy[k];
+            if(x>=0&&x<m&&y>=0&&y<n&&!vis[x][y]&&grid[x][y]!=-1){
+                vis[x][y]=true;
+                dfs(grid,x,y,count-1);
+                vis[x][y]=false;
+            }
+        }
+    }
+};

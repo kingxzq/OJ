@@ -1,0 +1,24 @@
+class Solution {
+    const int dx[4]={0,0,1,-1};
+    const int dy[4]={-1,1,0,0};
+    int m,n,prev;
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        if(image[sr][sc] == color) return image;
+
+        m=image.size(),n=image[0].size();
+        prev=image[sr][sc];
+        dfs(image,sr,sc,color);
+        return image;
+    }
+
+    void dfs(vector<vector<int>>& image, int sr, int sc, int color){
+        image[sr][sc]=color;
+        for(int i=0;i<4;++i){
+            int x=sr+dx[i],y=sc+dy[i];
+            if(x>=0&&x<m&&y>=0&&y<n&&image[x][y]==prev){
+                dfs(image,x,y,color);
+            }
+        }
+    }
+};

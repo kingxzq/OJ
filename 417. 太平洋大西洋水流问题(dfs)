@@ -1,0 +1,33 @@
+class Solution {
+    const int dx[4]={0,0,1,-1};
+    const int dy[4]={1,-1,0,0};
+    bool po[201][201];
+    bool ao[201][201];
+    int m,n;
+public:
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+        m=heights.size(),n=heights[0].size();
+        vector<vector<int>> ret;
+
+        for(int i=0;i<n;++i) dfs(heights,0,i,po);
+        for(int i=0;i<m;++i) dfs(heights,i,0,po);
+
+        for(int i=0;i<m;++i) dfs(heights,i,n-1,ao);
+        for(int i=0;i<n;++i) dfs(heights,m-1,i,ao);
+
+        for(int i=0;i<m;i++)
+            for(int j=0;j<n;++j)
+                if(po[i][j]&&ao[i][j]) ret.push_back({i,j});
+
+        return ret;
+    }
+
+    void dfs(vector<vector<int>>& heights,int i,int j,bool vis[201][201]){
+        vis[i][j]=true;
+        for(int k=0;k<4;++k){
+            int x=i+dx[k],y=j+dy[k];
+            if(x>=0&&x<m&&y>=0&&y<n&&!vis[x][y]&&heights[x][y]>=heights[i][j])
+                dfs(heights,x,y,vis);
+        }
+    }
+};

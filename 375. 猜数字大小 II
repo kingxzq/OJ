@@ -1,0 +1,21 @@
+class Solution {
+    int memo[201][201];
+public:
+    int getMoneyAmount(int n) {
+        return dfs(1,n);
+    }
+
+    int dfs(int left,int right){
+        if(left>=right) return 0; 
+        if(memo[left][right]!=0) return memo[left][right];
+
+        int ret=INT_MAX;
+        for(int mid=left;mid<=right;mid++){
+            int x=dfs(left,mid-1);
+            int y=dfs(mid+1,right);
+            ret=min(ret,mid+max(x,y));
+        }
+        memo[left][right]=ret;
+        return ret;
+    }
+};

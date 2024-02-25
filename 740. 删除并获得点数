@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int deleteAndEarn(vector<int>& nums) {
+        int hash[10001] = {0};
+        for(int& x:nums) hash[x]+=x;
+
+        vector<int> f(10001);
+        vector<int> g(10001);
+
+        for(int i=1;i<10001;++i){
+            f[i]=g[i-1]+hash[i];
+            g[i]=max(g[i-1],f[i-1]);
+        }
+
+        return max(f[10000],g[10000]);
+    }
+};

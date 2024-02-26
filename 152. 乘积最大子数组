@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int n=nums.size();
+        vector<int> f(n+1);
+        vector<int> g(n+1);
+
+        f[0]=g[0]=1;
+        int ret=INT_MIN;
+        for(int i=1;i<=n;++i){
+            int x=nums[i-1],y=f[i-1]*nums[i-1],z=g[i-1]*nums[i-1];
+            f[i]=max(x,max(y,z));
+            g[i]=min(x,min(y,z));
+            ret=max(ret,f[i]);
+        }
+        return ret;
+    }
+};

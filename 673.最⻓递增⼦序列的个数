@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int findNumberOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> len(n, 1), count(n, 1); // 1. 创建 dp 表 + 初始化
+        int retlen = 1, retcount = 1; // 记录最终结果
+        for (int i = 1; i < n; i++) // 2. 填表
+        {
+            for (int j = 0; j < i; j++)
+            {
+                if (nums[j] < nums[i])
+                {
+                    if (len[j] + 1 == len[i])
+                        count[i] += count[j];
+                    else if (len[j] + 1 > len[i]) // 重新计数
+                        len[i] = len[j] + 1, count[i] = count[j];
+                }
+            }
+            if (retlen == len[i])
+                retcount += count[i];
+            else if (retlen < len[i]) // 重新计数
+                retlen = len[i], retcount = count[i];
+        }
+        // 3. 返回结果
+        return retcount;
+    }
+};

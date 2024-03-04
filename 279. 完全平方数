@@ -1,0 +1,16 @@
+class Solution {
+    const int INF=0x3f3f3f3f;
+public:
+    int numSquares(int n) {
+        int m=(int)sqrt(n);
+        vector<vector<int>> dp(m+1,vector<int>(n+1));
+        for(int j=1;j<=n;j++) dp[0][j]=INF;
+
+        for(int i=1;i<=m;i++)
+            for(int j=0;j<=n;j++){
+                dp[i][j]=dp[i-1][j];
+                if(j>=i*i) dp[i][j]=min(dp[i][j],dp[i][j-i*i]+1);
+            }
+        return dp[m][n];
+    }
+};

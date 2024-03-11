@@ -1,0 +1,11 @@
+class Solution {
+public:
+    int longestPalindrome(string s) {
+        int hash[128];
+        int ret=0;
+        for(auto ch:s) hash[ch]++;
+        for(auto c:hash) ret+=c/2*2;
+
+        return ret<s.size()?ret+1:ret; 
+    }
+};

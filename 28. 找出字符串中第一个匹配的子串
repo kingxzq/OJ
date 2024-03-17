@@ -1,0 +1,42 @@
+class Solution {
+    vector<vector<int>> kmp(string& s) {
+        string t;
+        t += s[0];
+        vector<vector<int>> ret;
+        ret.push_back({s[0] - 'a', 0});
+        int i = 0;
+        for (i = 1; i < s.size(); i++) {
+            t += s[i];
+            unordered_map<string, int> left, right;
+            string s1, s2;
+            for (int l = 0, r = t.size() - 1; r > 0; l++, r--) {
+                s1 += t[l]; s2 = t[r] + s2;
+                left.insert({s1, s1.size()});
+                right.insert({s2, s2.size()});
+            }
+            int comp = 0;
+            for (auto& [a, b] : left) {
+                if (right.count(a)) {
+                    comp = max(comp, b);
+                }
+            }
+            ret.push_back({s[i] - 'a', comp});
+        }
+        return ret;
+    }
+public:
+    int strStr(string haystack, string needle) {
+        if (needle.size() == 0) return 0;
+        vector<vector<int>> comp(kmp(needle));
+        int i = 0, j = 0;
+        while (i < haystack.size() && j < needle.size()) {
+            if (haystack[i] == needle[j]) {
+                i++; j++;
+            } else {
+                if (j == 0) i++;
+                else j = j-(j - comp[j-1][1]);
+            }
+        }
+        return j == needle.size() ? i - needle.size() : -1;
+    }
+};

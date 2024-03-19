@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<int> rearrangeBarcodes(vector<int>& barcodes) {
+        unordered_map<int,int> hash;
+        int maxval=0,maxCount=0;
+        for(int& x:barcodes){
+            if(maxCount<++hash[x]){
+                maxCount=hash[x];
+                maxval=x;
+            }
+        }
+
+        int n=barcodes.size(),index=0;
+        vector<int> ret(n);
+        for(int i=0;i<maxCount;i++){
+            ret[index]=maxval;
+            index+=2;
+        }
+
+        hash.erase(maxval);
+        for(auto& [x,y]:hash){
+            for(int i=0;i<y;i++){
+                if(index>=n) index=1;
+                ret[index]=x;
+                index+=2;
+            }
+        }
+        return ret;
+    }
+};

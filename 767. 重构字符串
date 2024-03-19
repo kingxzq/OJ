@@ -1,0 +1,34 @@
+class Solution {
+public:
+    string reorganizeString(string s) {
+        int hash[26]={0};
+        char maxChar=' ';
+        int maxCount=0;
+        for(char& ch:s){
+            if(maxCount<++hash[ch-'a']){
+                maxChar=ch;
+                maxCount=hash[ch-'a'];
+            }
+        }
+
+        int n=s.size();
+        if(maxCount>(n+1)/2) return "";
+
+        string ret(n,' ');
+        int index=0;
+        for(int i=0;i<maxCount;i++){
+            ret[index]=maxChar;
+            index+=2;
+        }
+
+        hash[maxChar-'a']=0;
+        for(int i=0;i<26;i++){
+            for(int j=0;j<hash[i];j++){
+                if(index>=n) index=1;
+                ret[index]='a'+i;
+                index+=2;
+            }
+        }
+        return ret;
+    }
+};

@@ -1,0 +1,26 @@
+class Solution {
+    map<int,int> cmp;
+    void lmr(TreeNode* root){
+        if(!root) return;
+        lmr(root->left);
+        cmp[root->val]++;
+        lmr(root->right);
+    }
+public:
+    vector<int> findMode(TreeNode* root) {
+        if(!root->left&&!root->right) return {root->val};
+        lmr(root);
+        vector<int> ret;
+        int m=0,tmp;
+        for(auto it:cmp){
+            if(it.second>m){
+                m=it.second;
+                tmp=it.first;
+            }
+        }
+        ret.push_back(tmp);
+        for(auto it:cmp)
+            if(it.first!=ret[0]&&it.second==m) ret.push_back(it.first);
+        return ret;
+    }
+};

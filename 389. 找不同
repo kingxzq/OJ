@@ -1,0 +1,12 @@
+class Solution {
+public:
+    char findTheDifference(string s, string t) {
+        int cmp[26];
+        for(char x:s) cmp[x-'a']++;
+        for(char x:t){
+            if(cmp[x-'a']==0) return x;
+            cmp[x-'a']--;
+        }
+        return -1;
+    }
+};

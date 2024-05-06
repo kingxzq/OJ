@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<string> commonChars(vector<string>& words) {
+        if(words.size() == 0) {
+            return {};
+        }
+        int hash[26] ={0};
+        //将第一个字符串中的元素加入到哈希表中
+        for (int i = 0; i < words[0].size(); ++i){
+            ++hash[words[0][i] - 'a'];
+        }
+        int hashOtherStr[26] = {0};
+        //将其他字符串加入到另一个哈希表中去
+        for (int i = 1; i < words.size(); ++i){
+            //每一次都要对hashOtherStr数组进行重新初始化
+            memset(hashOtherStr, 0, sizeof(hashOtherStr));
+            for (int j = 0; j < words[i].size(); ++j){
+                ++hashOtherStr[words[i][j] - 'a'];
+            }
+            //进行最小值得判断
+            for (int k = 0; k < 26; ++k){
+                hash[k] = min(hashOtherStr[k], hash[k]);
+            }
+        }
+        //此时hash存储的都是最小值
+        //再转化输出形式
+        vector<string> ans;
+        for (int i = 0; i < 26; ++i){
+            //由于每个单词存在重复的字母所以此处是while而不是if
+            while(hash[i] != 0){
+                //定义一个字符串
+                //将数字转化为字符再转化为字符串
+                string s(1, i + 'a');
+                //再加入到字符串数组中去
+                ans.emplace_back(s);
+                --hash[i];
+            }
+        }
+        return ans;
+    }
+};

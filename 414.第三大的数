@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int thirdMax(vector<int>& nums) {
+        priority_queue<int> heap;
+        int count=2;
+        for(int i=0;i<nums.size();i++){
+            heap.push(nums[i]);
+        }
+        int maxnum=heap.top();
+        int t=heap.top();
+        heap.pop();
+        while(!heap.empty()&&count){
+            if(t>heap.top()){
+                t=heap.top();
+                count--;
+
+            } 
+            heap.pop();
+        }
+        if(count) return maxnum;
+        return t;
+    }
+};

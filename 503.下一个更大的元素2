@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<int> nextGreaterElements(vector<int>& nums) {
+        vector<int> ret(nums.size(),0);
+
+        for(int i=0;i<nums.size();i++){
+            int count=0,s=i;
+            bool tmp=false;
+            for(int j=i;j<nums.size();j++){
+                if(nums[j]>nums[i]) {
+
+                    tmp=true;
+
+                    count=nums[j];
+                    break;
+                }
+            }
+
+            if(!tmp) 
+                for(int k=0;k<s;k++){
+                    if(nums[k]>nums[i]){
+                        count=nums[k];
+                        tmp=true;
+                        break;
+                    }
+                }
+            if(tmp)
+                ret[i]=count;
+            else
+                ret[i]=-1;
+        }
+        return ret;
+    }
+};
